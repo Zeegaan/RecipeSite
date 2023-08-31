@@ -36,7 +36,7 @@ Welcome to your new app.
 
     private string CalculateRecipeUrl(RecipeViewModel recipeViewModel)
     {
-        return recipeViewModel.RouteViewModel.StartItemViewModel.Path + recipeViewModel.RouteViewModel.Path;
+        return recipeViewModel.RouteViewModel.Path;
     }
     
     protected override async Task OnInitializedAsync()

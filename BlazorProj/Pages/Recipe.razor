@@ -1,8 +1,54 @@
-﻿@page "/home-page/recipes/{recipename}"
+﻿@page "/recipes/{recipename}"
+@using System.Text.Json
+@using BlazorProj.ViewModels
+@inject IHttpClientFactory ClientFactory
+
 <h3>You have made it to the @RecipeName recipe!</h3>
 
+@if (_recipe?.Name is null)
+{
+    <h1>loading..</h1>
+}
+else
+{
+    <h1>@_recipe.Name</h1>
+    <img src="@CalculateImageUrl(_recipe)" alt="@_recipe.PropertiesViewModel.Images.First().Name" />
+    <h3>Ingredients: </h3>
+    <div>
+        @foreach (var ingredient in _recipe.PropertiesViewModel.Ingredients)
+        {
+            <p>@ingredient</p>
+        }
+    </div>
+    <div>
+        @((MarkupString)_recipe.PropertiesViewModel.RecipeSteps.Markup)
+    </div>
+
+    
+}
+
 @code {
- 
+
+    private RecipeViewModel? _recipe;
+    
     [Parameter]
     public string? RecipeName{ get;set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            $"https://localhost:44351/umbraco/delivery/api/v1/content/item/recipes/{RecipeName}?expand=all");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+        _recipe = await JsonSerializer.DeserializeAsync<RecipeViewModel>(responseStream);
+    }
+    
+    private string CalculateImageUrl(RecipeViewModel recipe)
+    {
+        return Constants.BaseUrl + recipe.PropertiesViewModel.Images.First().Url;
+    }
 }

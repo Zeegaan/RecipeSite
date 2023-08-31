@@ -9,4 +9,10 @@ public class RecipePropertiesViewModel
         
     [JsonPropertyName("image")]
     public ImageViewModel[] Images { get; set; }
+    
+    [JsonPropertyName("ingredients")]
+    public string[] Ingredients { get; set; }
+    
+    [JsonPropertyName("recipeSteps")]
+    public RichTextViewModel RecipeSteps { get; set; }
 }
