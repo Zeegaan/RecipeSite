@@ -1,0 +1,91 @@
+﻿@page "/"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+@inject IHttpClientFactory ClientFactory
+<PageTitle>Index</PageTitle>
+
+<h1>@_homePage?.Properties.Header</h1>
+
+@if(_homePage?.Properties?.Recipes == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach(var recipe in _homePage.Properties.Recipes)
+    {
+        <h2>@recipe.Properties.Title</h2>
+        <img src="@CalculateImageUrl(recipe)" alt="@recipe.Properties.Images.First().Name" />
+    } 
+}
+
+
+Welcome to your new app.
+
+
+@code {
+
+    private HomePage _homePage;
+
+    private string CalculateImageUrl(Recipe recipe)
+    {
+        return Constants.BaseUrl + recipe.Properties.Images.First().Url;
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            "https://localhost:44351/umbraco/delivery/api/v1/content/item/home-page?expand=all");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+        _homePage = await JsonSerializer.DeserializeAsync<HomePage>(responseStream);
+    }
+
+    public class HomePage
+    {
+        [JsonPropertyName("properties")]
+        public HomePageProperties Properties { get; set; }
+    }
+    
+    public class HomePageProperties
+    {
+        [JsonPropertyName("header")]
+        public string? Header { get; set; }
+        
+        [JsonPropertyName("recipes")]
+        public Recipe[] Recipes { get; set; }
+    }
+
+    public class Recipe
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        
+        [JsonPropertyName("properties")]
+        public RecipeProperties Properties { get; set; }
+    }
+    
+    public class RecipeProperties
+    {
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        
+        [JsonPropertyName("image")]
+        public Image[] Images { get; set; }
+    }
+    
+    public class Image
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+    }
+
+}
