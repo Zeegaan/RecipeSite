@@ -15,7 +15,7 @@ else
 {
     @foreach(var recipe in _homePage.Properties.Recipes)
     {
-        <h2>@recipe.Properties.Title</h2>
+        <a href="@CalculateRecipeUrl(recipe)"><h2>@recipe.Properties.Title</h2></a>
         <img src="@CalculateImageUrl(recipe)" alt="@recipe.Properties.Images.First().Name" />
     } 
 }
@@ -31,6 +31,11 @@ Welcome to your new app.
     private string CalculateImageUrl(Recipe recipe)
     {
         return Constants.BaseUrl + recipe.Properties.Images.First().Url;
+    }
+
+    private string CalculateRecipeUrl(Recipe recipe)
+    {
+        return recipe.Route.StartItem.Path + recipe.Route.Path;
     }
     
     protected override async Task OnInitializedAsync()
@@ -66,6 +71,9 @@ Welcome to your new app.
         [JsonPropertyName("name")]
         public string Name { get; set; }
         
+        [JsonPropertyName("route")]
+        public Route Route { get; set; }
+        
         [JsonPropertyName("properties")]
         public RecipeProperties Properties { get; set; }
     }
@@ -86,6 +94,21 @@ Welcome to your new app.
         
         [JsonPropertyName("url")]
         public string Url { get; set; }
+    }
+
+    public class Route
+    {
+        [JsonPropertyName("path")]
+        public string Path { get; set; }
+        
+        [JsonPropertyName("startItem")]
+        public StartItem StartItem { get; set; }
+    }
+
+    public class StartItem
+    {
+        [JsonPropertyName("path")]
+        public string Path { get; set; }
     }
 
 }

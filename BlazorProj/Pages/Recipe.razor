@@ -1,8 +1,8 @@
 ﻿@page "/home-page/recipes/{recipename}"
-<h3>Recipe</h3>
+<h3>You have made it to the @RecipeName recipe!</h3>
 
 @code {
  
     [Parameter]
-    public string RecipeName{ get;set; }
+    public string? RecipeName{ get;set; }
 }
