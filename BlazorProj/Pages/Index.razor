@@ -6,7 +6,8 @@
 @inject IHttpClientFactory ClientFactory
 <PageTitle>Index</PageTitle>
 
-<h1>@_homePageViewModel?.Properties.Header</h1>
+<MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">@_homePageViewModel?.Properties.Header</MudText>
+<MudText Align="Align.Center">Here you can take a look at some of our most popular recipes!</MudText>
 
 @if(_homePageViewModel?.Properties?.Recipes == null)
 {
@@ -14,25 +15,27 @@
 }
 else
 {
-    @foreach(var recipe in _homePageViewModel.Properties.Recipes)
+    <MudGrid Class="mt-16">
+    @foreach (var recipe in _homePageViewModel.Properties.Recipes)
     {
-        <MudCard>
-            <MudCardMedia Image="@CalculateImageUrl(recipe)" Height="200" />
-            <MudCardContent>
-                <MudText Typo="Typo.h5">@recipe.PropertiesViewModel.Title</MudText>
-                <MudText Typo="Typo.body2">Lorem ipsum dlorLorem ipsum dlorLorem ipsum dlorLorem ipsum dlor</MudText>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Go to recipe</MudButton>
-            </MudCardActions>
-        </MudCard>
+        <MudItem xs="4">
+            <MudCard>
+                <MudCardMedia Image="@CalculateImageUrl(recipe)" Height="300" Width="200"/>
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@recipe.PropertiesViewModel.Title</MudText>
+                    <MudText Typo="Typo.body2">Lorem ipsum dlorLorem ipsum dlorLorem ipsum dlorLorem ipsum dlor</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary">Go to recipe</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
         @* <a href="@CalculateRecipeUrl(recipe)"><h2>@recipe.PropertiesViewModel.Title</h2></a> *@
         @* <img src="@CalculateImageUrl(recipe)" alt="@recipe.PropertiesViewModel.Images.First().Name" /> *@
-    } 
-}
-
-
-Welcome to your new app.
+    }
+    </MudGrid>
+    }
 
 
 @code {
