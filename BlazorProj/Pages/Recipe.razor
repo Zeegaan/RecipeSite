@@ -3,29 +3,55 @@
 @using BlazorProj.ViewModels
 @inject IHttpClientFactory ClientFactory
 
-<h3>You have made it to the @RecipeName recipe!</h3>
-
-@if (_recipe?.Name is null)
+@if (_recipe is not null)
 {
-    <h1>loading..</h1>
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">@_recipe.PropertiesViewModel.Title</MudText>
+    <MudGrid Spacing="6" Class="mt-16">
+        <MudItem xs="7">
+            <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-16">Recipe steps</MudText>
+            <MudGrid Class="mt-16">
+                <MudText>@((MarkupString)_recipe.PropertiesViewModel.RecipeSteps.Markup)</MudText>
+                <MudImage Src="@CalculateImageUrl(_recipe)" Class="rounded-lg mt-16" ObjectPosition="ObjectPosition.Center" Height="300" Width="300"/>
+            </MudGrid>
+        </MudItem>
+        
+        <MudItem xs="5">
+            <MudText Typo="Typo.h5" GutterBottom="true">Ingredients:</MudText>
+            <MudPaper Class="d-flex flex-column" Style="height:100%;" Outlined="true">
+                <MudList Clickable="true">
+                    @foreach (var ingredient in _recipe.PropertiesViewModel.Ingredients)
+                    {
+                        <MudListItem Icon="@Icons.Material.Filled.Ballot">
+                            <div class="d-flex">
+                                <MudText>@ingredient</MudText>
+                            </div>
+                        </MudListItem>
+                    }
+                </MudList>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
 }
-else
-{
-    <h1>@_recipe.Name</h1>
-    <img src="@CalculateImageUrl(_recipe)" alt="@_recipe.PropertiesViewModel.Images.First().Name" />
-    <h3>Ingredients: </h3>
-    <div>
-        @foreach (var ingredient in _recipe.PropertiesViewModel.Ingredients)
-        {
-            <p>@ingredient</p>
-        }
-    </div>
-    <div>
-        @((MarkupString)_recipe.PropertiesViewModel.RecipeSteps.Markup)
-    </div>
 
-    
-}
+
+@* @if (_recipe?.Name is null) *@
+@* { *@
+@*     <h1>loading..</h1> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <h1>@_recipe.Name</h1> *@
+@*     <img src="@CalculateImageUrl(_recipe)" alt="@_recipe.PropertiesViewModel.Images.First().Name" width="300" height="300" /> *@
+@*     <MudText Typo="Typo.h2">Ingredients: </MudText> *@
+@*     <ul> *@
+@*         @foreach (var ingredient in _recipe.PropertiesViewModel.Ingredients) *@
+@*         { *@
+@*             <li><MudText Typo="Typo.h4">@ingredient</MudText></li> *@
+@*         } *@
+@*     </ul> *@
+@* *@
+@*     <MudText>@((MarkupString)_recipe.PropertiesViewModel.RecipeSteps.Markup)</MudText> *@
+@* } *@
 
 @code {
 
