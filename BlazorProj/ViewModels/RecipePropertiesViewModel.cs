@@ -15,4 +15,7 @@ public class RecipePropertiesViewModel
     
     [JsonPropertyName("recipeSteps")]
     public RichTextViewModel RecipeSteps { get; set; }
+    
+    [JsonPropertyName("teaserText")]
+    public string TeaserText { get; set; }
 }

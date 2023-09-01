@@ -2,7 +2,7 @@
 @using System.Text.Json
 @using BlazorProj.ViewModels
 
-
+@inject NavigationManager NavManager
 @inject IHttpClientFactory ClientFactory
 <PageTitle>Index</PageTitle>
 
@@ -23,16 +23,13 @@ else
                 <MudCardMedia Image="@CalculateImageUrl(recipe)" Height="300" Width="200"/>
                 <MudCardContent>
                     <MudText Typo="Typo.h5">@recipe.PropertiesViewModel.Title</MudText>
-                    <MudText Typo="Typo.body2">Lorem ipsum dlorLorem ipsum dlorLorem ipsum dlorLorem ipsum dlor</MudText>
+                    <MudText Typo="Typo.body2">@recipe.PropertiesViewModel.TeaserText</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary">Go to recipe</MudButton>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="() => OnButtonClicked(recipe)">Go to recipe</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
-
-        @* <a href="@CalculateRecipeUrl(recipe)"><h2>@recipe.PropertiesViewModel.Title</h2></a> *@
-        @* <img src="@CalculateImageUrl(recipe)" alt="@recipe.PropertiesViewModel.Images.First().Name" /> *@
     }
     </MudGrid>
     }
@@ -47,10 +44,10 @@ else
         return Constants.BaseUrl + recipe.PropertiesViewModel.Images.First().Url;
     }
 
-    private string CalculateRecipeUrl(RecipeViewModel recipeViewModel)
+    private void OnButtonClicked(RecipeViewModel recipeViewModel)
     {
-        return recipeViewModel.RouteViewModel.Path;
-    }
+        NavManager.NavigateTo(recipeViewModel.RouteViewModel.Path);
+    } 
     
     protected override async Task OnInitializedAsync()
     {

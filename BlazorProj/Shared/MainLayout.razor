@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject NavigationManager NavigationManager
 <PageTitle>BlazorProj</PageTitle>
 
 <MudThemeProvider/>
@@ -8,7 +8,7 @@
 
 <MudLayout>
     <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Inherit" Edge="Edge.Start" />
+        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Inherit" Edge="Edge.Start" OnClick="OnClick"/>
         Nikolajs Wacky Recipes
     </MudAppBar>
     <MudMainContent>
@@ -18,11 +18,10 @@
     </MudMainContent>
 </MudLayout>
 
-@code {
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
+@code
+{
+    private void OnClick()
     {
-        _drawerOpen = !_drawerOpen;
+        NavigationManager.NavigateTo("/");
     }
 }
