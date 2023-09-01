@@ -1,9 +1,29 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor
+@inherits LayoutComponentBase
 
 <PageTitle>BlazorProj</PageTitle>
 
-<div class="page">
-    <main>
-        @Body
-    </main>
-</div>
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Inherit" Edge="Edge.Start" />
+        Nikolajs Wacky Recipes
+    </MudAppBar>
+    <MudMainContent>
+        <MudContainer Fixed="true">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

@@ -16,8 +16,18 @@ else
 {
     @foreach(var recipe in _homePageViewModel.Properties.Recipes)
     {
-        <a href="@CalculateRecipeUrl(recipe)"><h2>@recipe.PropertiesViewModel.Title</h2></a>
-        <img src="@CalculateImageUrl(recipe)" alt="@recipe.PropertiesViewModel.Images.First().Name" />
+        <MudCard>
+            <MudCardMedia Image="@CalculateImageUrl(recipe)" Height="200" />
+            <MudCardContent>
+                <MudText Typo="Typo.h5">@recipe.PropertiesViewModel.Title</MudText>
+                <MudText Typo="Typo.body2">Lorem ipsum dlorLorem ipsum dlorLorem ipsum dlorLorem ipsum dlor</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Go to recipe</MudButton>
+            </MudCardActions>
+        </MudCard>
+        @* <a href="@CalculateRecipeUrl(recipe)"><h2>@recipe.PropertiesViewModel.Title</h2></a> *@
+        @* <img src="@CalculateImageUrl(recipe)" alt="@recipe.PropertiesViewModel.Images.First().Name" /> *@
     } 
 }
 
