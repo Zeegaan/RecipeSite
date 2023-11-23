@@ -1,0 +1,5 @@
+﻿<div class="suggestion" ng-controller="SuggestionPluginController">
+    <p>What would you like a recipe for?</p>
+    <input type="text" ng-model="model.value" />
+    <button type="button" ng-disabled="getState()" ng-click="getSuggestion()"> Give me the recipe!</button>
+</div>

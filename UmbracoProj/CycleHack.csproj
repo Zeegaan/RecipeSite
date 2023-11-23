@@ -15,6 +15,13 @@
     <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="68.2.0.9" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="App_Plugins\Suggestions\package.manifest" />
+    <Content Include="App_Plugins\Suggestions\suggestion.controller.js" />
+    <Content Include="App_Plugins\Suggestions\suggestion.css" />
+    <Content Include="App_Plugins\Suggestions\suggestion.html" />
+  </ItemGroup>
+
   <PropertyGroup>
     <!-- Razor files are needed for the backoffice to work correctly -->
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
