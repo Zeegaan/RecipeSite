@@ -3,6 +3,7 @@
     function ($scope, $http, umbRequestHelper) {
         // The controller assigns the behavior to scope as defined by the getSuggestion method, which is invoked when the user clicks on the 'Give me Suggestions!' button.
         $scope.getSuggestion = function () {
+            console.log($scope);
             return umbRequestHelper.resourcePromise(
                 $http.post("https://localhost:44351/umbraco/api/ai/GetRecipe", {text : $scope.model.value}),
                 "Failed to get recipe"
